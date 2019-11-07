@@ -270,23 +270,16 @@ public class MainActivity extends AppCompatActivity {
         int n = (int)(hsv[2]*(1-(1-f)*hsv[1]));
         switch (ti){
             case 0:
-                tvw.setText("Hey1: " + (int)hsv[2]+  n+ l);
                 return Color.rgb((int)hsv[2], n, l);
-
             case 1:
-                tvw.setText("Hey2: " + m + (int)hsv[2] + l);
                 return Color.rgb(m, (int)hsv[2], l);
             case 2:
-                tvw.setText("Hey3: " + l+ (int)hsv[2] + n);
                 return Color.rgb(l, (int)hsv[2], n);
             case 3:
-                tvw.setText("Hey4: " + l+ m+ (int)hsv[2]);
                 return Color.rgb(l, m, (int)hsv[2]);
             case 4:
-                tvw.setText("hey5: " + n+ l+ (int)hsv[2]);
                 return Color.rgb(n, l, (int)hsv[2]);
             case 5:
-                tvw.setText("Hey6: " + (int)hsv[2] + l + m);
                 return Color.rgb((int)hsv[2], l, m);
             default:
                 return Color.rgb(255,255,255);
@@ -296,18 +289,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void keepColor(Bitmap bmp){
         int color;
-        int alpha;
         float hue;
         double t = Math.random()*360;
         float[] hsvc = new float[3];
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
         bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
-            alpha = Color.alpha(pixels[i]);
-            Color.RGBToHSV(Color.red(pixels[i]), Color.green(pixels[i]), Color.blue(pixels[i]), hsvc);
+            RGBtoHSV(Color.red(pixels[i]), Color.green(pixels[i]), Color.blue(pixels[i]), hsvc);
             hue = hsvc[0];
             if(hue <= t+30 && hue >= t-30){
-                color = Color.HSVToColor(alpha, hsvc);
+                color = HSVtoColor(hsvc);
                 pixels[i] = color;
             }else{
                 int grey = (int) (Color.red(pixels[i]) * 0.3) + (int) (Color.green(pixels[i]) * 0.59) + (int) (Color.blue(pixels[i]) * 0.11);
