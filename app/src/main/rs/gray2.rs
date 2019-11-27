@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name ( com.example.hello)
+#pragma rs java_package_name ( com.android.rssample)
 
 static const float4 weight = {0.299 f , 0.587 f , 0.114 f , 0.0 f };
 

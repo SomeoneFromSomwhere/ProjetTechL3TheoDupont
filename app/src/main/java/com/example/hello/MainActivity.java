@@ -1,18 +1,21 @@
 package com.example.hello;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.renderscript.RenderScript;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Collections;
+import androidx.appcompat.app.AppCompatActivity;
+import android.renderscript.Allocation;
+
+import android.renderscript.ScriptC_gray;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -87,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         button_to_gray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGray(bitprint);
+                toGrayRS(bitprint);
                 iv.setImageBitmap(bitprint);
             }
         });
@@ -186,12 +189,13 @@ public class MainActivity extends AppCompatActivity {
     private void black_line(Bitmap bmp ){
         double j = bmp.getHeight()*0.5;
         for(double i =0; i<bmp.getWidth(); i++){
-            bmp.setPixel((int) i, (int) j-1, Color.BLACK);
             bmp.setPixel((int) i, (int) j, Color.BLACK);
-            bmp.setPixel((int) i, (int) j+1, Color.BLACK);
         }
         return;
     }
+
+
+
 
     private void toGray(Bitmap bmp){
         int p, grey;
@@ -203,6 +207,27 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return;
+    }
+
+    private void toGrayRS(Bitmap bmp){
+
+        RenderScript rs = RenderScript.create(this);
+
+        Allocation input = Allocation.createFromBitmap(rs, bmp);
+        Allocation output = Allocation.createTyped(rs, input.getType());
+
+
+        ScriptC_gray grayScript = new ScriptC_gray(rs);
+
+
+        grayScript . forEach_toGray ( input , output ) ;
+
+        output . copyTo ( bmp ) ;
+
+        input . destroy () ; output . destroy () ;
+
+        grayScript . destroy () ; rs . destroy () ;
+
     }
 
     private void toGrays(Bitmap bmp){
