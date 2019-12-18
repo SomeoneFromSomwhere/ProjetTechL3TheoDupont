@@ -14,14 +14,14 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.renderscript.Allocation;
 
-import android.renderscript.ScriptC_gray;
+import static android.graphics.Color.HSVToColor;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    Bitmap bit, bitprint;
+    Bitmap bit, bit_copy;
     ImageView iv;
-    TextView tvw, tvh;
+    TextView width_tv, height_tv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,23 +29,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         iv = (ImageView) findViewById(R.id.image);
-        tvw = (TextView) findViewById(R.id.width);
-        tvh = (TextView) findViewById(R.id.height);
+        width_tv = (TextView) findViewById(R.id.width);
+        height_tv = (TextView) findViewById(R.id.height);
 
-        bit = BitmapFactory.decodeResource(getResources(), R.drawable.eye);
-        bitprint = bit.copy(bit.getConfig(), true);
+        bit = BitmapFactory.decodeResource(getResources(), R.drawable.img_cours);
+        bit_copy = bit.copy(bit.getConfig(), true);
 
 
-        tvw.setText("Width: " + bit.getWidth());
-        tvh.setText("Height: " + bit.getHeight());
-        iv.setImageBitmap(bitprint);
+        width_tv.setText("Width: " + bit.getWidth());
+        height_tv.setText("Height: " + bit.getHeight());
+        iv.setImageBitmap(bit_copy);
 
         Button button_reset = (Button) findViewById(R.id.button_reset);
         button_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bitprint = bit.copy(bit.getConfig(), true);
-                iv.setImageBitmap(bitprint);
+                bit_copy = bit.copy(bit.getConfig(), true);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -54,10 +54,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bit = BitmapFactory.decodeResource(getResources(), R.drawable.eye);
-                tvw.setText("Width: " + bit.getWidth());
-                tvh.setText("Height: " + bit.getHeight());
-                bitprint = bit.copy(bit.getConfig(), true);
-                iv.setImageBitmap(bitprint);
+                width_tv.setText("Width: " + bit.getWidth());
+                height_tv.setText("Height: " + bit.getHeight());
+                bit_copy = bit.copy(bit.getConfig(), true);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -66,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bit = BitmapFactory.decodeResource(getResources(), R.drawable.mario);
-                tvw.setText("Width: " + bit.getWidth());
-                tvh.setText("Height: " + bit.getHeight());
-                bitprint = bit.copy(bit.getConfig(), true);
-                iv.setImageBitmap(bitprint);
+                width_tv.setText("Width: " + bit.getWidth());
+                height_tv.setText("Height: " + bit.getHeight());
+                bit_copy = bit.copy(bit.getConfig(), true);
+                iv.setImageBitmap(bit_copy);
 
             }
         });
@@ -79,10 +79,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 bit = BitmapFactory.decodeResource(getResources(), R.drawable.red_gradient);
-                tvw.setText("Width: " + bit.getWidth());
-                tvh.setText("Height: " + bit.getHeight());
-                bitprint = bit.copy(bit.getConfig(), true);
-                iv.setImageBitmap(bitprint);
+                width_tv.setText("Width: " + bit.getWidth());
+                height_tv.setText("Height: " + bit.getHeight());
+                bit_copy = bit.copy(bit.getConfig(), true);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -90,17 +90,17 @@ public class MainActivity extends AppCompatActivity {
         button_to_gray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrayRS(bitprint);
-                iv.setImageBitmap(bitprint);
+                toGrayRS(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
-        Button button_black_line = (Button) findViewById(R.id.button_blackline);
-        button_black_line.setOnClickListener(new View.OnClickListener() {
+        Button button_test = (Button) findViewById(R.id.button_test);
+        button_test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                black_line(bitprint);
-                iv.setImageBitmap(bitprint);
+                tests(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
         button_to_grays.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrays(bitprint);
-                iv.setImageBitmap(bitprint);
+                toGrays(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -119,8 +119,8 @@ public class MainActivity extends AppCompatActivity {
         button_colorize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                colorize(bitprint);
-                iv.setImageBitmap(bitprint);
+                colorize(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -129,8 +129,8 @@ public class MainActivity extends AppCompatActivity {
         button_keepColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                keepColor(bitprint);
-                iv.setImageBitmap(bitprint);
+                keepColorRandom(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity {
         button_extDyn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrays(bitprint);                                          //Transforms in grey in case of colored picture
-                extDyn(bitprint);
-                iv.setImageBitmap(bitprint);
+                toGrays(bit_copy);                                          //Transforms in grey in case of colored picture
+                extendDyn(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -150,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
         button_resDyn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrays(bitprint);                                          //Transforms in grey in case of colored picture
-                resDyn(bitprint);
-                iv.setImageBitmap(bitprint);
+                toGrays(bit_copy);                                          //Transforms in grey in case of colored picture
+                contractDyn(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
         button_extDynC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                extDynColor(bitprint);
-                iv.setImageBitmap(bitprint);
+                extendDynColor(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -169,9 +169,9 @@ public class MainActivity extends AppCompatActivity {
         button_equalizerg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toGrays(bitprint);                                          //Transforms in grey in case of colored picture
-                equalizerg(bitprint);
-                iv.setImageBitmap(bitprint);
+                toGrays(bit_copy);                                          //Transforms in grey in case of colored picture
+                equalizerGray(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
@@ -179,11 +179,25 @@ public class MainActivity extends AppCompatActivity {
         button_equalizerc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                equalizerc(bitprint);
-                iv.setImageBitmap(bitprint);
+                equalizerColor(bit_copy);
+                iv.setImageBitmap(bit_copy);
             }
         });
 
+    }
+
+    private void tests(Bitmap bmp){
+        int color;
+        float hsvc[] = new float[3];
+        int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
+        bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
+            RGBtoHSV(Color.red(pixels[i]), Color.green(pixels[i]), Color.blue(pixels[i]), hsvc);
+            color = HSVtoColor(hsvc);
+            pixels[i] = color;
+        }
+        bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        return;
     }
 
     private void black_line(Bitmap bmp ){
@@ -192,10 +206,7 @@ public class MainActivity extends AppCompatActivity {
             bmp.setPixel((int) i, (int) j, Color.BLACK);
         }
         return;
-    }
-
-
-
+    }          // NOT Displayed in application
 
     private void toGray(Bitmap bmp){
         int p, grey;
@@ -207,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return;
-    }
+    }               // NOT Displayed in application
 
     private void toGrayRS(Bitmap bmp){
 
@@ -217,16 +228,16 @@ public class MainActivity extends AppCompatActivity {
         Allocation output = Allocation.createTyped(rs, input.getType());
 
 
-        ScriptC_gray grayScript = new ScriptC_gray(rs);
+        ScriptC_gray2 grayScript = new ScriptC_gray2(rs);
 
 
-        grayScript . forEach_toGray ( input , output ) ;
+        grayScript.forEach_toGray2(input, output);
 
-        output . copyTo ( bmp ) ;
+        output.copyTo(bmp);
 
-        input . destroy () ; output . destroy () ;
+        input.destroy(); output.destroy();
 
-        grayScript . destroy () ; rs . destroy () ;
+        grayScript.destroy(); rs.destroy();
 
     }
 
@@ -260,59 +271,61 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
+    private void RGBtoHSV(int red,int green, int blue, float hsv[] ){
+        double r = (double)red/255.0;
+        double g = (double)green/255.0;
+        double b = (double)blue/255.0;
 
-
-
-    private void RGBtoHSV(int r,int g, int b, float hsv[] ){
         double max = Math.max(b,Math.max(r,g));
         double min = Math.min(b,Math.min(r,g));
         double delta = max - min;
-        if(max == min){
+
+        if(delta == 0){
             hsv[0] = 0;
         }else if(max == r){
-            hsv[0] = (float)(60*((g-b)/delta)+360)%360;
+            hsv[0] = (float) ((60* ((g-b)/delta) + 360)%360 );
         }else if(max == g){
-            hsv[0] = (float)(60*((b-r)/delta)+120);
+            hsv[0] = (float) (60* ((b-r)/delta) + 120);
         }else if(max == b){
-            hsv[0] = (float)(60*((r-g)/delta)+240);
+            hsv[0] = (float) (60* ((r-g)/delta) + 240);
         }
-        if(max ==0){
+
+        if(max == 0){
             hsv[1] = 0;
         }else{
-            hsv[1] = 1-(float)(min/max);
+            hsv[1] = (float)(delta/max);
         }
+
         hsv[2] = (float)max;
     }
 
-
-
     private int HSVtoColor(float hsv[]){
 
-        int ti = (int)((hsv[0]/60) % 6);
-        int f = (int)((hsv[0]/60) - ti);
-        int l = (int)(hsv[2]*(1-hsv[1]));
-        int m = (int)(hsv[2]*(1-(f*hsv[1])));
-        int n = (int)(hsv[2]*(1-(1-f)*hsv[1]));
-        switch (ti){
+        int ti = (int)(Math.abs(hsv[0]/60))%6;
+
+        float f = hsv[0]/60 - ti;
+        float l = hsv[2]*(1-hsv[1]);
+        float m = hsv[2]*(1- f*hsv[1]);
+        float n = hsv[2]*(1- (1-f)*hsv[1]);
+
+        switch(ti){
             case 0:
-                return Color.rgb((int)hsv[2], n, l);
+                return Color.rgb((int)(255*hsv[2]), (int)(255*hsv[2]), (int)(255*hsv[2]));
             case 1:
-                return Color.rgb(m, (int)hsv[2], l);
+                return Color.rgb((int)(255*m), (int)(255*hsv[2]), (int)(255*hsv[2]));
             case 2:
-                return Color.rgb(l, (int)hsv[2], n);
+                return Color.rgb((int)(255*l), (int)(255*hsv[2]), (int)(255*n));
             case 3:
-                return Color.rgb(l, m, (int)hsv[2]);
+                return Color.rgb((int)(255*l), (int)(255*m), (int)(255*hsv[2]));
             case 4:
-                return Color.rgb(n, l, (int)hsv[2]);
-            case 5:
-                return Color.rgb((int)hsv[2], l, m);
+                return Color.rgb((int)(255*n), (int)(255*l), (int)(255*hsv[2]));
             default:
-                return Color.rgb(255,255,255);
+                return Color.rgb((int)(255*hsv[2]), (int)(255*l), (int)(255*m));
         }
+
     }
 
-
-    private void keepColor(Bitmap bmp){
+    private void keepColorRandom(Bitmap bmp){
         int color;
         float hue;
         double t = Math.random()*360;
@@ -335,7 +348,32 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
-    private void extDyn(Bitmap bmp){
+    private void keepColor(Bitmap bmp, int size_to_keep_color, int color_to_keep){
+        int color;
+        float hue;
+        float[] hsv_old = new float[3];
+        RGBtoHSV(Color.red(color_to_keep),Color.green(color_to_keep),Color.blue(color_to_keep), hsv_old);
+        double t = Math.random()*360;
+        float[] hsv_new = new float[3];
+        int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
+        bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
+            RGBtoHSV(Color.red(pixels[i]), Color.green(pixels[i]), Color.blue(pixels[i]), hsv_new);
+            hue = hsv_new[0];
+            if(hue <= t+size_to_keep_color && hue >= t-size_to_keep_color){         //Case around 0 not managed
+                color = HSVtoColor(hsv_new);
+                pixels[i] = color;
+            }else{
+                int grey = (int) (Color.red(pixels[i]) * 0.3) + (int) (Color.green(pixels[i]) * 0.59) + (int) (Color.blue(pixels[i]) * 0.11);
+                pixels[i] = Color.rgb(grey, grey, grey);
+            }
+
+        }
+        bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        return;
+    }
+
+    private void extendDyn(Bitmap bmp){
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
         int min = 255;
         int max = 0;
@@ -368,9 +406,7 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
-
-
-    private void resDyn(Bitmap bmp){
+    private void contractDyn(Bitmap bmp){
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
         int min = 255;
         int max = 0;
@@ -405,7 +441,7 @@ public class MainActivity extends AppCompatActivity {
         return;
     }                               //NOT WORKING
 
-    private void extDynColor(Bitmap bmp){
+    private void extendDynColor(Bitmap bmp){                                   //Passer en hsv puis histo sur h puis traitement puis reconversion en rgb pour affichage
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
         int[] min = new int[]{255, 255, 255};
         int[] max = new int[3];
@@ -449,7 +485,7 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
-    private void equalizerg(Bitmap bmp){
+    private void equalizerGray(Bitmap bmp){
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
         int grey;
         long ngrey;
@@ -474,7 +510,7 @@ public class MainActivity extends AppCompatActivity {
         return;
     }
 
-    private void equalizerc(Bitmap bmp){
+    private void equalizerColor(Bitmap bmp){
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
         int[] rgb = new int[3];
         long[] nrgb = new long[3];

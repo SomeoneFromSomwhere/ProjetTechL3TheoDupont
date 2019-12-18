@@ -33,7 +33,7 @@
         android:text="Colorize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_blackline" />
+        app:layout_constraintTop_toBottomOf="@+id/button_test" />
 
     <Button
         android:id="@+id/button_keepColor"
@@ -106,10 +106,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="To Gray"
-        app:layout_constraintEnd_toStartOf="@+id/button_blackline"
+        app:layout_constraintEnd_toStartOf="@+id/button_test"
         app:layout_constraintHorizontal_bias="0.308"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_blackline" />
+        app:layout_constraintTop_toTopOf="@+id/button_test" />
 
     <TextView
         android:id="@+id/width"
@@ -130,12 +130,12 @@
         app:layout_constraintStart_toEndOf="@+id/button_reset" />
 
     <Button
-        android:id="@+id/button_blackline"
+        android:id="@+id/button_test"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
-        android:text="blackline"
+        android:text="test"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
