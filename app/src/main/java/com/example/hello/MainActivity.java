@@ -310,9 +310,9 @@ public class MainActivity extends AppCompatActivity {
 
         switch(ti){
             case 0:
-                return Color.rgb((int)(255*hsv[2]), (int)(255*hsv[2]), (int)(255*hsv[2]));
+                return Color.rgb((int)(255*hsv[2]), (int)(255*n), (int)(255*l));
             case 1:
-                return Color.rgb((int)(255*m), (int)(255*hsv[2]), (int)(255*hsv[2]));
+                return Color.rgb((int)(255*m), (int)(255*hsv[2]), (int)(255*l));
             case 2:
                 return Color.rgb((int)(255*l), (int)(255*hsv[2]), (int)(255*n));
             case 3:
