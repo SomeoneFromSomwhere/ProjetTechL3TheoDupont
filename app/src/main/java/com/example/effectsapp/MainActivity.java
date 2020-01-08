@@ -129,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         button_keepColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                keepColorRandom(bit_copy);
+                keepColorRandom(bit_copy, 30);
                 iv.setImageBitmap(bit_copy);
             }
         });
@@ -297,7 +297,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         hsv[2] = (float)max;
-    }
+    }      //WORKS
 
     private int HSVtoColor(float hsv[]){
 
@@ -323,9 +323,9 @@ public class MainActivity extends AppCompatActivity {
                 return Color.rgb((int)(255*hsv[2]), (int)(255*l), (int)(255*m));
         }
 
-    }
+    }                                   //WORKS
 
-    private void keepColorRandom(Bitmap bmp){
+    private void keepColorRandom(Bitmap bmp, int size_keeping){
         int color;
         float hue;
         double t = Math.random()*360;
@@ -335,7 +335,12 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
             RGBtoHSV(Color.red(pixels[i]), Color.green(pixels[i]), Color.blue(pixels[i]), hsvc);
             hue = hsvc[0];
-            if(hue <= t+30 && hue >= t-30){
+            boolean to_verify = hue <= t+size_keeping && hue >= t-size_keeping;
+            if(t<size_keeping)
+                to_verify = ((hue <= t+size_keeping && hue>= 0 ) || hue >= 360-(size_keeping-t));
+            if(t>360-size_keeping)
+                to_verify = ((hue >= t-size_keeping && hue <=360) || hue <= t-(360-t));
+            if(to_verify){
                 color = HSVtoColor(hsvc);
                 pixels[i] = color;
             }else{
@@ -346,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
         }
         bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return;
-    }
+    }            //WORKS
 
     private void keepColor(Bitmap bmp, int size_to_keep_color, int color_to_keep){
         int color;
@@ -404,42 +409,7 @@ public class MainActivity extends AppCompatActivity {
         }
         bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return;
-    }
-
-    private void contractDyn(Bitmap bmp){
-        int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
-        int min = 255;
-        int max = 0;
-        int grey;
-        int ngrey;
-        bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-        for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
-            grey = Color.red(pixels[i]);
-            if(grey>max){
-                max = grey;
-            }
-            if(grey<min){
-                min = grey;
-            }
-        }
-        int dynamic = max - min ;
-        if(dynamic <= 30){
-            return;
-        }
-        int[] LUT = new int[256];
-        dynamic = max - min -10;                    //Modify dynamic or max/min to get a better result (replace that -10)
-
-        for(int ng =0; ng < 256; ng++){
-            LUT[ng] = (255*(ng-min))/dynamic;
-        }
-        for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
-            grey = Color.red(pixels[i]);
-            ngrey = LUT[grey];
-            pixels[i] = Color.rgb(ngrey, ngrey, ngrey);
-        }
-        bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
-        return;
-    }                               //NOT WORKING
+    }                                   //Seems to work
 
     private void extendDynColor(Bitmap bmp){                                   //Passer en hsv puis histo sur h puis traitement puis reconversion en rgb pour affichage
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
@@ -483,7 +453,42 @@ public class MainActivity extends AppCompatActivity {
         }
         bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return;
-    }
+    }                              //Seems to work
+
+    private void contractDyn(Bitmap bmp){
+        int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
+        int min = 255;
+        int max = 0;
+        int grey;
+        int ngrey;
+        bmp.getPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
+            grey = Color.red(pixels[i]);
+            if(grey>max){
+                max = grey;
+            }
+            if(grey<min){
+                min = grey;
+            }
+        }
+        int dynamic = max - min ;
+        if(dynamic <= 30){
+            return;
+        }
+        int[] LUT = new int[256];
+        dynamic = max - min -10;                    //Modify dynamic or max/min to get a better result (replace that -10)
+
+        for(int ng =0; ng < 256; ng++){
+            LUT[ng] = (255*(ng-min))/dynamic;
+        }
+        for(int i=0; i<bmp.getHeight()*bmp.getWidth(); i++){
+            grey = Color.red(pixels[i]);
+            ngrey = LUT[grey];
+            pixels[i] = Color.rgb(ngrey, ngrey, ngrey);
+        }
+        bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
+        return;
+    }                                 //NOT WORKING
 
     private void equalizerGray(Bitmap bmp){
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
@@ -508,7 +513,7 @@ public class MainActivity extends AppCompatActivity {
         }
         bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return;
-    }
+    }                               //Works maybe
 
     private void equalizerColor(Bitmap bmp){
         int pixels[] = new int[bmp.getHeight()*bmp.getWidth()];
@@ -545,7 +550,11 @@ public class MainActivity extends AppCompatActivity {
         }
         bmp.setPixels(pixels, 0, bmp.getWidth(), 0, 0, bmp.getWidth(), bmp.getHeight());
         return;
-    }
+    }                              //Works maybe
+
+    private void convolution(Bitmap bmp){
+
+    }                                    //TO DO
 
     @Override
     protected void onStart(){
