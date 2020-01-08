@@ -1,12 +1,12 @@
-package com.example.effectsapp.colors;
+package com.example.effectsapp;
 
 import android.graphics.Color;
 
-public class Colors {
+public abstract class Colors {
     public Colors(){
         }
 
-    public void RGBtoHSV(int red,int green, int blue, float hsv[] ){
+    public static void RGBtoHSV(int red,int green, int blue, float hsv[] ){
         double r = (double)red/255.0;
         double g = (double)green/255.0;
         double b = (double)blue/255.0;
@@ -35,7 +35,7 @@ public class Colors {
         hsv[2] = (float)max;
     }
 
-    public int HSVtoColor(float hsv[]){
+    public static int HSVtoColor(float hsv[]){
         int ti = (int)(Math.abs(hsv[0]/60))%6;
 
         float f = hsv[0]/60 - ti;

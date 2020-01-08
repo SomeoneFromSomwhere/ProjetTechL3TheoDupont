@@ -1,11 +1,13 @@
-package com.example.effectsapp;
+package com.example.effectsapp.kernel;
 
 public class Kernel {
 
-    private int[][] matrice;
-    private int sumKernel;
+    protected int[][] matrice;
+    protected int sumKernel;
+    protected int size;
 
-    Kernel(int[] values, int size){
+    public Kernel(int size, int[] values){
+        this.size = size;
         this.sumKernel = 0;
         this.matrice = new int[size][size];
         for(int y=0; y<size; y++){
@@ -17,12 +19,22 @@ public class Kernel {
         }
     }
 
+    public Kernel(int size){
+        this.size = size;
+        this.sumKernel = 0;
+        this.matrice = new int[size][size];
+    }
+
     public int[][] getMatrice() {
         return matrice;
     }
 
     public int getSumKernel() {
         return sumKernel;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public void setSumKernel(int sumKernel) {
@@ -32,5 +44,7 @@ public class Kernel {
     public void setMatrice(int[][] matrice) {
         this.matrice = matrice;
     }
+
+
 
 }

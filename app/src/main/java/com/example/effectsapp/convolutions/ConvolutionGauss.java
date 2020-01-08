@@ -4,8 +4,8 @@ import android.graphics.Bitmap;
 
 import com.example.effectsapp.kernel.styles.Gauss;
 
-public class ConvoluttionGauss extends Convolution {
-    public ConvolutionGauss(Bitmap bmp, int size){
+public class ConvolutionGauss extends Convolution {
+    public ConvolutionGauss(Bitmap bmp){
         super(bmp, new Gauss());
     }
 }

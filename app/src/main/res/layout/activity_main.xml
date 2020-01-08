@@ -8,11 +8,11 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="258dp"
-        android:layout_height="258dp"
-        android:layout_marginTop="136dp"
+        android:layout_width="306dp"
+        android:layout_height="309dp"
+        android:layout_marginTop="168dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.542"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,26 +20,31 @@
         android:id="@+id/button_to_grays"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginEnd="34dp"
         android:text="To Grays"
-        app:layout_constraintEnd_toStartOf="@+id/button_colorize"
+        app:layout_constraintEnd_toStartOf="@+id/button_keepColor"
+        app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintStart_toEndOf="@+id/button_colorize"
         app:layout_constraintTop_toTopOf="@+id/button_colorize" />
 
     <Button
         android:id="@+id/button_colorize"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:text="Colorize"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_test" />
+        app:layout_constraintTop_toBottomOf="@+id/button_convolutionMoyenneur"
+        app:layout_constraintVertical_bias="0.098" />
 
     <Button
         android:id="@+id/button_keepColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="180dp"
         android:text="Keep Color"
         app:layout_constraintStart_toEndOf="@+id/button_colorize"
         app:layout_constraintTop_toTopOf="@+id/button_colorize" />
@@ -48,18 +53,9 @@
         android:id="@+id/button_extDynG"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="140dp"
         android:text="Extend Dyn"
         app:layout_constraintEnd_toStartOf="@+id/button_extDynC"
-        app:layout_constraintTop_toTopOf="@+id/button_extDynC" />
-
-    <Button
-        android:id="@+id/button_resDynG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Contract Dyn"
-        app:layout_constraintStart_toEndOf="@+id/button_extDynC"
         app:layout_constraintTop_toTopOf="@+id/button_extDynC" />
 
     <Button
@@ -88,7 +84,7 @@
         android:layout_marginTop="16dp"
         android:text="Mario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -105,11 +101,11 @@
         android:id="@+id/button_toGray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Gray"
-        app:layout_constraintEnd_toStartOf="@+id/button_test"
-        app:layout_constraintHorizontal_bias="0.308"
+        android:text="To Gray RS"
+        app:layout_constraintEnd_toStartOf="@+id/button_convolutionGauss"
+        app:layout_constraintHorizontal_bias="0.878"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/button_test" />
+        app:layout_constraintTop_toTopOf="@+id/button_convolutionGauss" />
 
     <TextView
         android:id="@+id/width"
@@ -130,12 +126,14 @@
         app:layout_constraintStart_toEndOf="@+id/button_reset" />
 
     <Button
-        android:id="@+id/button_test"
+        android:id="@+id/button_convolutionGauss"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="48dp"
-        android:text="test"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Convo Gauss"
+        app:layout_constraintBottom_toTopOf="@+id/button_keepColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
@@ -143,10 +141,10 @@
         android:id="@+id/button_extDynC"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Ext. DynColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.473"
+        app:layout_constraintHorizontal_bias="0.935"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_colorize" />
 
@@ -155,7 +153,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Equalizer Gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_extDynC" />
@@ -164,10 +162,43 @@
         android:id="@+id/button_equalizerc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
         android:text="Equalizer Color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_extDynC" />
+
+    <Button
+        android:id="@+id/button_convolutionMoyenneur"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Convo Norm."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/image" />
+
+    <Button
+        android:id="@+id/button_toHsvCircle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="46dp"
+        android:text="Circle"
+        app:layout_constraintBottom_toTopOf="@+id/image"
+        app:layout_constraintEnd_toEndOf="@+id/button_toRedGradient"
+        app:layout_constraintTop_toBottomOf="@+id/button_toRedGradient" />
+
+    <Button
+        android:id="@+id/button_toSun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="46dp"
+        android:text="Sun"
+        app:layout_constraintBottom_toTopOf="@+id/image"
+        app:layout_constraintStart_toStartOf="@+id/button_toEye"
+        app:layout_constraintTop_toBottomOf="@+id/button_toEye"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

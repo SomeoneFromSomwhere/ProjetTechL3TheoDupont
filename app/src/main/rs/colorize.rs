@@ -1,5 +1,5 @@
 #pragma version(1)
-#pragma rs java_package_name ( com.example.hello)
+#pragma rs java_package_name ( com.example.effectsapp)
 
 uchar4 RS_KERNEL colorize ( uchar4 in ) {
 
